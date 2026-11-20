@@ -74,3 +74,7 @@ Quando il proprietario richiederà la gestione autonoma dei contenuti, valutare 
 
 ## Route legacy
 Mantenere registro `docs/redirects.csv` delle vecchie URL raccolte dal sito pubblico o export autorizzato, con destinazione e 301. Non inventare path Weebly.
+
+## Riscontro dell’implementazione
+
+L’elenco iniziale descriveva la struttura obiettivo. La struttura corrente è nel README. Il server Next gestisce le pagine e l’archivio GET. La route `/anteprima-media/[name]` legge solo i derivati autorizzati per la revisione locale e restituisce 404 in produzione. Il processo di pubblicazione usa immagini approvate in `public/media/`. Il contatto passa dal client di posta. Per l’MVP non occorrono container o servizi separati. Il prossimo ADR sarà necessario se lo studio richiederà l’editing autonomo o l’invio dal sito.

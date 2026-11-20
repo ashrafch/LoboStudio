@@ -32,3 +32,7 @@ Max width desktop ~1440px, editorial content width 1100–1280px, body text max 
 
 ## Logo
 La schermata Weebly mostra monogramma verticale LO sopra BO (con seconda riga ruotata o ribaltata). **Usare il file ufficiale fornito nell'asset folder** come sorgente di verità; non estrarre/ricalcare dallo screenshot se c'è l'originale. Valutare lockup con dicitura completa dello studio in un header di dimensioni adeguate.
+
+## Implementazione MVP
+
+L’accento operativo è `#7C503D` e il testo secondario è `#565F60`. Manrope Variable e DM Sans Variable sono serviti dal progetto. Il menu passa alla modalità mobile sotto gli 800 px. La carrellata avanza solo su richiesta e le transizioni rispettano reduced motion. I test controllano l’overflow della home a 360, 390, 768, 1024, 1440 e 1920 px.
