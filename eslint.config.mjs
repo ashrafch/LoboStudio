@@ -8,6 +8,7 @@ export default defineConfig([
     ".next/**",
     "next-env.d.ts",
     "LoboStudio_Codex_Kit_v0.1/**",
+    "_archive/**",
     "playwright-report/**",
   ]),
 ]);

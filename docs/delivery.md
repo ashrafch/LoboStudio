@@ -6,7 +6,7 @@
 - I font variabili Manrope e DM Sans sono inclusi localmente tramite Fontsource. Superfici avorio e inchiostro, accento terra scurito a `#7C503D` e testo secondario `#565F60` migliorano la leggibilità.
 - Ricerca per parole nel contenuto versionato, normalizzazione accenti e URL GET. Le categorie conservano la ricerca quando si cambia filtro.
 - L’API interna di sola lettura per la revisione serve una lista di immagini WebP da una directory fuori dagli asset pubblici. È condizionata all’ambiente di sviluppo. Le immagini fallite mostrano un fallback.
-- Il sito usa un link email diretto. Provider di invio, form, CMS, database e Docker si valutano quando serviranno. Per ora gli aggiornamenti passano dal repository.
+- Il sito usa un link email diretto. Gli aggiornamenti passano dal repository. Il Dockerfile e Docker Compose gestiscono l’anteprima locale e la build per l’hosting.
 - I recapiti, il marchio JPEG e gli articoli in revisione sono visibili in anteprima. L’icona tecnica testuale identifica la scheda browser. I dati strutturati locali e le pagine indicizzabili dipendono da dati e dominio approvati.
 
 ## Modello di scheda

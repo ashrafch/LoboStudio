@@ -68,8 +68,8 @@ LoboStudio/
 Quando il proprietario richiederà la gestione autonoma dei contenuti, valutare headless CMS (es. Sanity, Directus, Payload) con requisiti: autenticazione, ruoli, backup, versionamento, costi, hosting, storage e tracciamento. Un DB non è giustificato solo per visualizzare una ventina di schede.
 
 ## Docker e hosting
-- Locale: `npm run dev` sufficiente; Docker non imposto per marketing site.
-- Se si sceglie container: multi-stage build standalone, immagine ridotta, runtime non root, healthcheck e variabili da secret manager, niente secret in image layer.
+- Docker Compose avvia `preview` per la revisione locale e `web` per la prova di produzione. Porte, comandi e configurazione sono nel [README](../README.md#avvio-con-docker).
+- Il Dockerfile condivide le dipendenze tra gli stadi di build. Lo stadio finale esegue il server standalone con utente non privilegiato e controllo di salute HTTP. Gli originali entrano solo nel container di anteprima tramite mount in lettura.
 - Deploy: GitHub -> preview per PR (se abilitato/approvato) -> produzione da `main`. Nessuna modifica DNS finché redirect, SSL, policy, contenuti e rollback non sono validati.
 
 ## Route legacy
@@ -77,4 +77,4 @@ Mantenere registro `docs/redirects.csv` delle vecchie URL raccolte dal sito pubb
 
 ## Riscontro dell’implementazione
 
-L’elenco iniziale descriveva la struttura obiettivo. La struttura corrente è nel README. Il server Next gestisce le pagine e l’archivio GET. La route `/anteprima-media/[name]` legge solo i derivati autorizzati per la revisione locale e restituisce 404 in produzione. Il processo di pubblicazione usa immagini approvate in `public/media/`. Il contatto passa dal client di posta. Per l’MVP non occorrono container o servizi separati. Il prossimo ADR sarà necessario se lo studio richiederà l’editing autonomo o l’invio dal sito.
+La struttura corrente è nel README. Il server Next gestisce le pagine e l’archivio GET. La route `/anteprima-media/[name]` legge i derivati per la revisione locale e restituisce 404 in produzione. Il processo di pubblicazione usa immagini approvate in `public/media/`. Il contatto passa dal client di posta.

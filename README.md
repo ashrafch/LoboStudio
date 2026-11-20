@@ -2,7 +2,28 @@
 
 Portfolio istituzionale in italiano. La home presenta una selezione fotografica a scorrimento manuale. L’archivio offre categorie con URL propri, ricerca testuale, schede individuali e gallerie espandibili. Le pagine istituzionali coprono studio, servizi, sisma Emilia 2012, clienti, rassegna e contatti.
 
-## Avvio su Windows
+## Avvio con Docker
+
+Dalla cartella del repository, con Docker Desktop in modalità container Linux o Docker Engine con Compose, avvia entrambe le versioni del sito.
+
+```sh
+docker compose --profile production up -d --build --wait
+```
+
+| Servizio | Indirizzo locale | Contenuti |
+|---|---|---|
+| `preview` | [Apri l’anteprima](http://127.0.0.1:3080) | Progetti in revisione e fotografie derivate dagli originali presenti in `asset/`. |
+| `web` | [Apri la build di produzione](http://127.0.0.1:3081) | Sito Next.js standalone con le sole schede approvate per il pubblico. |
+
+I due servizi ascoltano sul tuo computer. Per vedere le fotografie dopo un nuovo clone, colloca gli originali nella cartella locale `asset/` e riavvia `preview`. Per aggiornare i container dopo una modifica al codice, ripeti il comando di avvio. Per controllare stato e log o fermare il progetto:
+
+```sh
+docker compose --profile production ps
+docker compose logs --tail=50 preview web
+docker compose --profile production down
+```
+
+## Avvio con Node.js su Windows
 
 Con Node.js 24 LTS e npm, da PowerShell:
 
@@ -43,8 +64,11 @@ scripts/             Derivazione WebP e manifest SHA-256
 tests/               Vitest, Testing Library, Playwright e axe
 docs/                Specifiche, inventari, decisioni e stato pubblicazione
 .github/             CI, Dependabot e modello di PR
+Dockerfile            Immagini Linux per anteprima e produzione
+compose.yaml          Servizi, porte locali e controlli di salute
 asset/               Originali di proprietà dello studio
 .local-media/        Derivati locali ignorati da Git
+_archive/            Copie locali del kit di partenza
 ```
 
 ## Contenuti e pubblicazione
@@ -53,4 +77,6 @@ Il progetto usa Next.js App Router, TypeScript strict e Tailwind CSS. L’archiv
 
 Per pubblicare un progetto occorrono scheda approvata, credito per ogni immagine e derivati in `public/media/`. Lo stato `published` li abilita nella build. Impostare `SITE_URL` all’origine HTTPS definitiva prima di generare URL canonici. Abilitare `LOBO_INDEXING=1` solo dopo la revisione. Per l’anteprima remota usare il controllo accessi dell’hosting. Le direttive per i motori di ricerca non proteggono l’accesso.
 
-Vedi [stato go-live](docs/go-live-status.md), [architettura](docs/architecture.md) e [workflow Git](docs/git-workflow.md).
+Per un hosting che esegue immagini OCI, costruire il target `production` del Dockerfile. Passare `SITE_URL` e `LOBO_INDEXING` sia in build sia a runtime, usare la porta interna 3000 dietro HTTPS e conservare il tag della release precedente per il rollback. In Compose le due variabili vengono lette dall’ambiente della shell o dal file indicato con `--env-file`. Il servizio `web` funziona senza volumi di dati.
+
+Guide operative e riferimenti di progetto sono raccolti nell’[indice della documentazione](docs/README.md).

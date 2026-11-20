@@ -25,4 +25,5 @@ Riferimenti per la revisione dell’informativa e delle tecnologie di navigazion
 - Playwright Chromium: 6 test in anteprima, 4 in produzione. I 2 casi specifici dell’anteprima sono omessi dalla suite di produzione.
 - Axe sulla home desktop: zero violazioni nei criteri A e AA testati. La prova di layout ha coperto sei larghezze, con screenshot a 390 e 1440 px.
 - npm audit: zero vulnerabilità riportate.
-- CI predisposta nel repository. L’esecuzione remota dipende dal futuro push.
+- Docker Compose su Windows con container Linux: servizi `preview` e `web` healthy. Playwright eseguito sui container con 6 test superati in anteprima e 4 in produzione. L’immagine standalone esegue il server con UID 1000 e non contiene gli originali né il file di ambiente locale.
+- GitHub Actions costruisce il target di produzione e avvia Playwright sul container a ogni push o pull request.
