@@ -1,0 +1,76 @@
+# Architettura proposta — ADR iniziale
+
+## Decisione
+**Next.js App Router + TypeScript strict + Tailwind + content store versionato**, con backend minimo nel medesimo progetto. Motivazione: SEO, velocità, facile deploy, controllo del codice e assenza di requisiti di gestione dati strutturati.
+
+## Albero obiettivo (adattare allo scaffold effettivo)
+```
+LoboStudio/
+├─ app/
+│  ├─ layout.tsx
+│  ├─ page.tsx
+│  ├─ studio/page.tsx
+│  ├─ servizi/page.tsx
+│  ├─ progetti/page.tsx
+│  ├─ progetti/[slug]/page.tsx
+│  ├─ progetti/categoria/[slug]/page.tsx
+│  ├─ clienti/page.tsx
+│  ├─ rassegna-stampa/page.tsx
+│  ├─ competenze/sisma-emilia-2012/page.tsx
+│  ├─ contatti/page.tsx
+│  ├─ privacy/page.tsx
+│  ├─ note-legali/page.tsx
+│  ├─ sitemap.ts
+│  ├─ robots.ts
+│  └─ not-found.tsx
+├─ components/
+│  ├─ layout/
+│  ├─ ui/
+│  ├─ portfolio/
+│  └─ sections/
+├─ content/
+│  ├─ projects/
+│  ├─ services/
+│  └─ press/
+├─ lib/
+│  ├─ content/
+│  ├─ seo/
+│  └─ validation/
+├─ public/
+│  ├─ brand/
+│  └─ media/                # DERIVATI WEB, non originali
+├─ asset/                    # Originali consegnati: salvaguardare
+├─ tests/
+│  ├─ unit/
+│  └─ e2e/
+├─ docs/
+├─ .agents/skills/
+├─ .github/workflows/
+├─ AGENTS.md
+├─ .env.example
+└─ README.md
+```
+
+## Modello di contenuto `Project`
+- `id`, `slug`, `title`, `category`, `summary`, `description`, `hero`, `gallery[]`, `featured`, `sortOrder`, `publicationStatus` (`draft`, `review`, `published`).
+- Facoltativi (solo se documentati): `year`, `location`, `client`, `role`, `services[]`, `scope`, `materials`, `pressRefs[]`.
+- `hero` e gallery: path locale, width, height, `alt`, credits/rights, eventuale focal point. Slug unici e deterministici.
+- Pubblicare nei percorsi pubblici esclusivamente record con `publicationStatus: published`. In dev, possibile vista preview chiaramente marcata.
+- I file mancanti non devono causare crash; test sulla validazione contenuti e link interni.
+
+## Backend/form contatti
+- Di default contatto email diretto + telefono funzionanti e mappa via link esterno.
+- Quando approvati provider e informativa: `POST /api/contact` (Node runtime) con Zod, max size, anti-abuso robusto, invio con segreti non esposti, dati essenziali, nessuna memorizzazione non necessaria.
+- Non affidare rate limit a sola memoria del processo in serverless. Scegli servizio duraturo/infrastruttura appropriata e documenta gli accessi.
+- Produzione senza credenziali: form disabilitato oppure messaggio esplicito di indisponibilità; mai successo fittizio.
+
+## Evoluzione futura
+Quando il proprietario richiederà la gestione autonoma dei contenuti, valutare headless CMS (es. Sanity, Directus, Payload) con requisiti: autenticazione, ruoli, backup, versionamento, costi, hosting, storage e tracciamento. Un DB non è giustificato solo per visualizzare una ventina di schede.
+
+## Docker e hosting
+- Locale: `npm run dev` sufficiente; Docker non imposto per marketing site.
+- Se si sceglie container: multi-stage build standalone, immagine ridotta, runtime non root, healthcheck e variabili da secret manager, niente secret in image layer.
+- Deploy: GitHub -> preview per PR (se abilitato/approvato) -> produzione da `main`. Nessuna modifica DNS finché redirect, SSL, policy, contenuti e rollback non sono validati.
+
+## Route legacy
+Mantenere registro `docs/redirects.csv` delle vecchie URL raccolte dal sito pubblico o export autorizzato, con destinazione e 301. Non inventare path Weebly.

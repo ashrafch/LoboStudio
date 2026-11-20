@@ -1,0 +1,14 @@
+node_modules/
+.next/
+out/
+.env*
+!.env.example
+next-env.d.ts
+*.tsbuildinfo
+playwright-report/
+test-results/
+public/preview/
+asset/
+LoboStudio_Codex_Kit_v0.1/
+LoboStudio_Codex_Kit_v0.1.zip
+.local-media/
