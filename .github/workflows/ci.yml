@@ -1,38 +1,24 @@
 name: CI
-
-on:
-  pull_request:
-    branches: [main]
-  push:
-    branches: [main]
-
+on: [push, pull_request]
 permissions:
   contents: read
-
-concurrency:
-  group: ci-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
 jobs:
   quality:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
-      - name: Lint, typecheck, tests and production build
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [ ! -f package.json ]; then
-            echo 'Documentation-only bootstrap: no app package.json yet.'
-            exit 0
-          fi
-          test -f package-lock.json || { echo 'Missing package-lock.json'; exit 1; }
-          npm ci
-          npm run lint
-          npm run typecheck
-          npm run test:unit
-          npm run build
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run test:unit
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - run: npm audit --omit=dev --audit-level=high
