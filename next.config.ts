@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 const production = process.env.NODE_ENV === "production";
 const config: NextConfig = {
+  allowedDevOrigins: ["127.0.0.1", "localhost"],
+  output: process.env.LOBO_STANDALONE === "1" ? "standalone" : undefined,
   agentRules: false,
   devIndicators: false,
   poweredByHeader: false,

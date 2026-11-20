@@ -1,7 +1,8 @@
 import { defineConfig, devices } from "@playwright/test";
 const preview = process.env.LOBO_E2E_PREVIEW === "1";
 const port = 3217;
-const baseURL = "http://127.0.0.1:" + port;
+const externalURL = process.env.LOBO_E2E_BASE_URL;
+const baseURL = externalURL || "http://127.0.0.1:" + port;
 export default defineConfig({
   testDir: "./tests/e2e",
   outputDir: preview ? "./test-results/preview" : "./test-results/production",
@@ -14,7 +15,7 @@ export default defineConfig({
     reducedMotion: "reduce",
     trace: "retain-on-failure",
   },
-  webServer: {
+  webServer: externalURL ? undefined : {
     command: "npm run " + (preview ? "dev" : "start") + " -- --port " + port,
     url: baseURL,
     timeout: 120_000,

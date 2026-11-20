@@ -18,7 +18,9 @@ jobs:
       - run: npm run lint
       - run: npm run typecheck
       - run: npm run test:unit
-      - run: npm run build
+      - run: docker compose --profile production up -d --build --wait web
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
+        env:
+          LOBO_E2E_BASE_URL: http://127.0.0.1:3081
       - run: npm audit --omit=dev --audit-level=high

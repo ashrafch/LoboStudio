@@ -1,0 +1,16 @@
+**
+!app/
+!app/**
+!components/
+!components/**
+!content/
+!content/**
+!public/
+!public/**
+public/preview/
+!scripts/
+!scripts/preview-media.mjs
+!package*.json
+!tsconfig.json
+!next.config.ts
+!postcss.config.mjs

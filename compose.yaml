@@ -1,0 +1,41 @@
+name: lobostudio
+services:
+  preview:
+    build:
+      context: .
+      target: preview
+    init: true
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3080:3000"
+    volumes:
+      - type: bind
+        source: ./asset
+        target: /app/asset
+        read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 20s
+      timeout: 10s
+      start_period: 60s
+  web:
+    profiles: [production]
+    build:
+      context: .
+      target: production
+      args:
+        SITE_URL: ${SITE_URL:-}
+        LOBO_INDEXING: ${LOBO_INDEXING:-0}
+    environment:
+      SITE_URL: ${SITE_URL:-}
+      LOBO_INDEXING: ${LOBO_INDEXING:-0}
+    ports:
+      - "127.0.0.1:3081:3000"
+    init: true
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
