@@ -13,3 +13,31 @@ LoboStudio_Codex_Kit_v0.1/
 LoboStudio_Codex_Kit_v0.1.zip
 .local-media/
 /_archive/
+
+# Local AI tooling and configuration.
+/.agents/
+/.claude/
+/.codex/
+/.mcp.json
+/skills-lock.json
+/docs/3d-hero/LoboStudio_FBX_Asset_Audit.md
+
+# Private media archive. Track only the empty directory markers.
+/assets/*
+!/assets/projects/
+!/assets/studio/
+!/assets/archive/
+!/assets/3d-building/
+/assets/projects/*
+/assets/studio/*
+/assets/archive/*
+!/assets/projects/.gitkeep
+!/assets/studio/.gitkeep
+!/assets/archive/.gitkeep
+/assets/3d-building/*
+!/assets/3d-building/original/
+!/assets/3d-building/textures/
+!/assets/3d-building/reference/
+!/assets/3d-building/processed/
+/assets/3d-building/*/*
+!/assets/3d-building/*/.gitkeep

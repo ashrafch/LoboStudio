@@ -6,12 +6,27 @@ services:
       target: preview
     init: true
     restart: unless-stopped
+    env_file:
+      - path: .env.cms
+        required: false
+    environment:
+      CMS_DB_PATH: /data/site.sqlite
+      CMS_ORIGIN: ${CMS_PREVIEW_ORIGIN:-http://127.0.0.1:3080}
     ports:
       - "127.0.0.1:3080:3000"
     volumes:
+      - cms-data:/data
       - type: bind
-        source: ./asset
-        target: /app/asset
+        source: ./assets/projects
+        target: /app/assets/projects
+        read_only: true
+      - type: bind
+        source: ./assets/studio
+        target: /app/assets/studio
+        read_only: true
+      - type: bind
+        source: ./assets/archive
+        target: /app/assets/archive
         read_only: true
     security_opt:
       - no-new-privileges:true
@@ -30,8 +45,16 @@ services:
         SITE_URL: ${SITE_URL:-}
         LOBO_INDEXING: ${LOBO_INDEXING:-0}
     environment:
+      CMS_DB_PATH: /data/site.sqlite
+      CMS_ORIGIN: ${CMS_WEB_ORIGIN:-}
+      CMS_ADMIN_ORIGIN: ${CMS_PREVIEW_ORIGIN:-http://127.0.0.1:3080}
       SITE_URL: ${SITE_URL:-}
       LOBO_INDEXING: ${LOBO_INDEXING:-0}
+    env_file:
+      - path: .env.cms
+        required: false
+    volumes:
+      - cms-data:/data
     ports:
       - "127.0.0.1:3081:3000"
     init: true
@@ -39,3 +62,5 @@ services:
     security_opt:
       - no-new-privileges:true
     cap_drop: [ALL]
+volumes:
+  cms-data:

@@ -3,11 +3,19 @@ const production = process.env.NODE_ENV === "production";
 const config: NextConfig = {
   allowedDevOrigins: ["127.0.0.1", "localhost"],
   output: process.env.LOBO_STANDALONE === "1" ? "standalone" : undefined,
+  experimental: { serverActions: { bodySizeLimit: "9mb" } },
   agentRules: false,
   devIndicators: false,
   poweredByHeader: false,
   async headers() {
     return [
+      {
+        source: "/admin/:path*",
+        headers: [
+          { key: "Cache-Control", value: "private, no-store" },
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
       {
         source: "/:path*",
         headers: [

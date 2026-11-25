@@ -8,10 +8,7 @@ export const metadata = {
 };
 export default function Page() {
   return (
-    <EditorialPage
-      title="Sisma Emilia 2012"
-      text="Ricostruzione, interventi strutturali e assistenza tecnica nel contesto post-sisma."
-    >
+    <EditorialPage page="sisma">
       <div className="prose-block">
         <h2>Archivio storico</h2>
         {localPreview && (
@@ -19,7 +16,20 @@ export default function Page() {
             Nel materiale storico, lo studio riferisce attività di messa in
             sicurezza e ripristino di fabbricati produttivi, direzione dei
             lavori strutturali e assistenza alle imprese per le domande di
-            contributo.
+            contributo. Descrive anche il confronto con la Regione
+            Emilia-Romagna sull’interpretazione delle ordinanze. Alla data del
+            resoconto, lo studio indicava 2,6 milioni di euro di contributi a
+            fondo perduto riconosciuti alle imprese clienti per ricostruzione e
+            riavvio delle attività, in parte già liquidati.
+          </p>
+        )}
+        {localPreview && (
+          <p>
+            La comunicazione dell’epoca richiamava il D.L. 74/2012 per
+            l’agibilità sismica dei fabbricati produttivi e le ordinanze
+            regionali 57/2012 e 23/2013 per i contributi relativi agli edifici
+            residenziali, agricoli, artigianali e industriali. La scadenza
+            riportata in quella pagina era il 31 dicembre 2014.
           </p>
         )}
         <p>

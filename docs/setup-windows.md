@@ -16,4 +16,4 @@ npm run test:e2e
 Remove-Item Env:LOBO_E2E_BASE_URL, Env:LOBO_E2E_PREVIEW
 ```
 
-L’anteprima completa richiede gli originali locali in `asset/`. I comandi Docker per avvio e arresto sono nel [README](../README.md#avvio-con-docker).
+L’anteprima completa richiede gli originali locali in `assets/`. I comandi Docker per avvio e arresto sono nel [README](../README.md#avvio-con-docker).

@@ -10,7 +10,7 @@ test("responsive home renders without horizontal overflow", async ({
   page.on("pageerror", (error) => errors.push(error.message));
   await page.goto("/");
   await expect(
-    page.getByRole("heading", { name: "Architettura e ingegneria." }),
+    page.getByRole("heading", { name: "STUDIO LOBO" }),
   ).toBeVisible();
   await page.evaluate(() => document.fonts.ready);
   for (const width of [360, 390, 768, 1024, 1440, 1920]) {
@@ -58,10 +58,13 @@ test("mobile navigation, search URL and empty result", async ({ page }) => {
   await page.getByRole("button", { name: "Categorie progetti" }).click();
   await page
     .getByRole("navigation", { name: "Principale" })
-    .getByRole("link", { name: "Ristrutturazioni" })
+    .getByRole("link", { name: "Ristrutturazioni e recupero" })
     .click();
   await expect(
-    page.getByRole("heading", { name: "Ristrutturazioni", level: 1 }),
+    page.getByRole("heading", {
+      name: "Ristrutturazioni e recupero",
+      level: 1,
+    }),
   ).toBeVisible();
   await page.getByRole("searchbox").fill("non-presente");
   await page.getByRole("button", { name: "Cerca", exact: true }).click();
@@ -127,17 +130,25 @@ test("preview media, carousel, gallery and contact links", async ({
   await page.getByRole("button", { name: "Progetto successivo" }).click();
   await page
     .getByRole("region", { name: "Progetti in evidenza" })
-    .getByRole("link", { name: "Torri residenziali" })
+    .getByRole("link", { name: "Torri Spadini" })
     .click();
   await expect(
-    page.getByRole("heading", { name: "Torri residenziali", level: 1 }),
+    page.getByRole("heading", { name: "Torri Spadini", level: 1 }),
   ).toBeVisible();
   const thumb = page.getByRole("button", { name: /Ingrandisci/ }).first();
+  await expect(page.locator(".project-cover-image figcaption")).toContainText(
+    "Le due torri viste da via Spadini.",
+  );
   await thumb.click();
   const gallery = page.getByRole("dialog");
-  await expect(gallery.getByText("1 / 2")).toBeVisible();
+  await expect(gallery.getByText("1 / 4")).toBeVisible();
   await page.keyboard.press("ArrowRight");
-  await expect(gallery.getByText("2 / 2")).toBeVisible();
+  await expect(gallery.getByText("2 / 4")).toBeVisible();
+  await expect(
+    gallery.getByText(
+      "La vista prospettica evidenzia l’alternanza delle logge.",
+    ),
+  ).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(gallery).toBeHidden();
   await expect(thumb).toBeFocused();
@@ -150,6 +161,31 @@ test("preview media, carousel, gallery and contact links", async ({
   ).toBe("image/webp");
 });
 
+test("gallery keeps its controls visible on a short landscape screen", async ({
+  page,
+}) => {
+  test.skip(!preview, "Richiede la galleria locale di Torri Spadini.");
+  await page.setViewportSize({ width: 667, height: 320 });
+  await page.goto("/progetti/torri-residenziali");
+  const thumbnail = page.getByRole("button", { name: /Ingrandisci/ }).first();
+  await thumbnail.click();
+  const gallery = page.getByRole("dialog", { name: "Galleria del progetto" });
+  for (const name of [
+    "Chiudi galleria",
+    "Immagine precedente",
+    "Immagine successiva",
+  ]) {
+    await expect(gallery.getByRole("button", { name })).toBeInViewport({
+      ratio: 1,
+    });
+  }
+  await gallery.getByRole("button", { name: "Immagine successiva" }).click();
+  await expect(gallery.getByText("2 / 4")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(gallery).toBeHidden();
+  await expect(thumbnail).toBeFocused();
+});
+
 test("failed preview image has a visible fallback", async ({ page }) => {
   test.skip(!preview, "Richiede la modalità di anteprima.");
   await page.route("**/anteprima-media/malvezza", (route) =>
@@ -159,4 +195,37 @@ test("failed preview image has a visible fallback", async ({ page }) => {
   await expect(
     page.getByText("Immagine non disponibile").first(),
   ).toBeVisible();
+});
+
+test("project cards respect hover, keyboard focus and live motion preference", async ({
+  page,
+}) => {
+  test.skip(
+    !preview,
+    "Richiede almeno una scheda illustrata dell’archivio locale.",
+  );
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/progetti");
+  const menu = page.getByRole("button", { name: "Categorie progetti" });
+  await menu.focus();
+  await page.keyboard.press("Enter");
+  await expect(menu).toHaveAttribute("aria-expanded", "true");
+  await page.keyboard.press("Escape");
+  const tile = page.locator(".project-tile").first();
+  const image = tile.locator(".project-card-image");
+  const scale = () =>
+    image.evaluate((element) => {
+      const transform = getComputedStyle(element).transform;
+      return transform === "none" ? 1 : new DOMMatrix(transform).a;
+    });
+
+  await tile.hover();
+  await expect.poll(scale).toBeGreaterThan(1.03);
+  await page.mouse.move(1, 1);
+  await expect.poll(scale).toBeCloseTo(1, 3);
+  await tile.focus();
+  await expect.poll(scale).toBeGreaterThan(1.03);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect.poll(scale).toBeCloseTo(1, 3);
+  await expect(tile).toBeFocused();
 });

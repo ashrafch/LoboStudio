@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
-import { categories, visibleProjects } from "@/content/projects";
+import { categories } from "@/content/projects";
+import { publicProjects } from "@/content/cms/public";
 import { indexing, siteUrl } from "@/content/site";
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (!indexing || !siteUrl) return [];
   const paths = [
     "/",
@@ -13,7 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contatti",
     "/competenze/sisma-emilia-2012",
     ...categories.map((item) => "/progetti/categoria/" + item.slug),
-    ...visibleProjects(false).map((item) => "/progetti/" + item.slug),
+    ...(await publicProjects(false)).map((item) => "/progetti/" + item.slug),
   ];
   return paths.map((path) => ({ url: new URL(path, siteUrl).href }));
 }

@@ -55,7 +55,7 @@ git commit -m "feat(portfolio): add filterable project archive"
 ## Bootstrap (solo se `.git/` non esiste)
 ```powershell
 git init -b main
-git add AGENTS.md docs .agents .github PROMPT_CODEX.md .gitignore .env.example README.md
+git add AGENTS.md docs .github .gitignore .env.example README.md
 git diff --cached --check
 git commit -m "chore(repo): initialize LoboStudio project"
 git switch -c feat/app-foundation
@@ -65,6 +65,7 @@ Adatta `git add` all'esistenza dei file. Se la repository esiste, non reiniziali
 ## Guardrail
 - Vietato `git reset --hard`, `git clean -fd`, `push --force`, `--no-verify` senza motivazione e approvazione.
 - Non committare `.env.local`, chiavi, email di test, foto non autorizzate o backup pesanti.
+- Le skill, le configurazioni MCP locali e gli originali restano fuori dal repository. Prima di pubblicare un branch verifica anche i commit locali che diventerebbero raggiungibili dal remoto.
 - Se un tool crea file temporanei, pulirli solo dopo avere verificato di averne titolarità.
 - Mai modificare `main` direttamente per nuove feature salvo setup iniziale esplicitamente previsto.
 - Quando si consegna: comunicare branch, commit, `git status`, test e lista di operazioni remote da autorizzare.

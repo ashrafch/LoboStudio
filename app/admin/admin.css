@@ -1,0 +1,870 @@
+.admin {
+  padding-block: 2rem 4rem;
+  min-height: 65vh;
+}
+.admin h1 {
+  font-size: clamp(2rem, 5vw, 3.75rem);
+}
+.admin h2 {
+  font-size: clamp(1.35rem, 3vw, 2.5rem);
+  overflow-wrap: anywhere;
+}
+.admin h3 {
+  font-size: 1.25rem;
+}
+.admin-head,
+.admin-actions {
+  display: flex;
+  gap: 0.65rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.admin-head {
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.admin-actions a,
+.admin button:not(.button),
+.admin-list a {
+  min-height: 44px;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+.admin button:not(.button):hover,
+.admin-actions a:hover,
+.admin-list a:hover,
+.admin-list a[aria-current] {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.admin button:disabled {
+  opacity: 0.55;
+}
+.admin label {
+  display: grid;
+  gap: 0.3rem;
+  font-weight: 650;
+}
+.admin :is(input:not([type="checkbox"]), select, textarea) {
+  width: 100%;
+  padding: 0.55rem 0.65rem;
+  background: white;
+  border: 1px solid #8c8184;
+  font: inherit;
+}
+.admin textarea {
+  resize: vertical;
+}
+.admin fieldset {
+  min-width: 0;
+  display: grid;
+  gap: 1rem;
+}
+.admin form {
+  margin-block: 1rem;
+}
+.admin-panel {
+  padding: clamp(1rem, 3vw, 2rem);
+  background: #f4f0ef;
+  border: 1px solid var(--line);
+  min-width: 0;
+}
+.admin-login {
+  max-width: 520px;
+}
+.admin-split {
+  display: grid;
+  grid-template-columns: minmax(12rem, 1fr) minmax(0, 3fr);
+  gap: 1.25rem;
+  margin-top: 1.25rem;
+}
+.admin-list,
+.admin-rows {
+  display: grid;
+  gap: 0.5rem;
+}
+.admin-list {
+  max-height: 65vh;
+  overflow: auto;
+  padding: 3px;
+}
+.admin-list a,
+.admin-list small {
+  display: block;
+}
+.admin-list small,
+.admin-media-hint {
+  color: var(--muted);
+  font-weight: 400;
+}
+.admin .admin-check {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+.admin-row {
+  padding: 0.8rem;
+  border: 1px solid var(--line);
+  background: white;
+}
+.admin-row legend {
+  font-weight: 700;
+}
+.admin-rows > button {
+  justify-self: start;
+}
+.admin-publish {
+  border-top: 1px solid var(--line);
+  margin-top: 1.5rem;
+}
+.admin-message {
+  border-left: 3px solid var(--accent);
+  padding: 0.6rem 0.8rem;
+  background: white;
+  margin-block: 1rem;
+}
+.admin-head-tools form {
+  margin: 0;
+}
+.admin .admin-guide-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.admin-dialog {
+  position: fixed;
+  inset: 0;
+  width: min(34rem, calc(100% - 2rem));
+  max-height: calc(100dvh - 2rem);
+  margin: auto;
+  overflow: auto;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+.admin-dialog::backdrop {
+  background: rgb(25 22 24 / 60%);
+}
+.admin-dialog-inner {
+  display: grid;
+  gap: 1rem;
+  padding: clamp(1rem, 4vw, 1.75rem);
+  overflow-wrap: anywhere;
+}
+.admin-dialog-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+.admin-dialog-head button {
+  flex: none;
+}
+.admin-dialog h2 {
+  font-size: clamp(1.4rem, 4vw, 1.9rem);
+}
+.admin-guide-step {
+  display: grid;
+  gap: 0.65rem;
+}
+.admin-step-count,
+.admin-backup-meta {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+.admin-guide-controls {
+  justify-content: space-between;
+  border-top: 1px solid var(--line);
+  padding-top: 1rem;
+}
+.admin-dialog form {
+  margin: 0;
+}
+.admin-tour {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  overflow: hidden;
+  background: transparent;
+  color: var(--ink);
+}
+.admin-tour::backdrop {
+  background: transparent;
+}
+.admin-tour-dim,
+.admin-tour-spotlight,
+.admin-tour-card {
+  position: absolute;
+}
+.admin-tour-dim {
+  inset: 0;
+  background: rgb(25 22 24 / 58%);
+}
+.admin-tour-spotlight {
+  outline: 2px solid var(--accent);
+  border-radius: 3px;
+  box-shadow: 0 0 0 200vmax rgb(25 22 24 / 58%);
+}
+.admin-tour-card {
+  inset: auto 1rem 1rem;
+  width: min(26rem, calc(100% - 2rem));
+  max-height: calc(100% - 2rem);
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--accent);
+  background: var(--paper);
+  box-shadow: 0 8px 28px rgb(25 22 24 / 22%);
+}
+.admin-tour-card[style] {
+  inset: auto;
+}
+.admin-tour-card h2 {
+  font-size: clamp(1.25rem, 3vw, 1.55rem);
+}
+.admin .admin-tour .admin-actions a.button {
+  color: var(--paper);
+  background: var(--ink);
+  padding: 0.65rem 1.2rem;
+}
+.admin .admin-tour .admin-actions a.button:hover {
+  background: var(--accent);
+}
+.admin-backups {
+  margin-top: 1.25rem;
+}
+.admin-backups h2 + p {
+  margin-top: 0.8rem;
+}
+.admin-backups > form {
+  max-width: 30rem;
+  margin-block: 1.25rem 2rem;
+}
+.admin-backups > form button {
+  justify-self: start;
+}
+.admin-backup-list {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+.admin-backup-list li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.6rem 1rem;
+  border: 1px solid var(--line);
+  padding: 0.7rem 0.85rem;
+  background: var(--paper);
+  overflow-wrap: anywhere;
+}
+.admin-backup-list li > div {
+  flex: 1 1 15rem;
+  min-width: 0;
+}
+.admin-media {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+  gap: 0.75rem;
+}
+.admin-media li {
+  border: 1px solid var(--line);
+  background: white;
+  padding: 0.6rem;
+  overflow-wrap: anywhere;
+}
+.admin-thumb {
+  aspect-ratio: 1.6;
+  position: relative;
+  background: #ddd;
+}
+.admin-thumb img {
+  object-fit: cover;
+}
+@media (max-width: 680px) {
+  .admin-split {
+    grid-template-columns: 1fr;
+  }
+  .admin-list {
+    max-height: 16rem;
+  }
+}
+
+/* Visual content editor */
+.admin-split {
+  grid-template-columns: minmax(155px, 0.7fr) minmax(0, 4fr);
+  align-items: start;
+}
+.admin-actions a[aria-current],
+.admin-list a[aria-current] {
+  border-color: var(--accent);
+  background: #f7ecec;
+  color: #70272d;
+}
+.admin-list {
+  align-content: start;
+}
+.admin-list a {
+  line-height: 1.35;
+}
+.admin .admin-panel:has(.ve-form) {
+  padding: clamp(0.75rem, 1.6vw, 1.5rem);
+  background: #f7f5f3;
+}
+.ve-toolbar,
+.ve-switch,
+.ve-save,
+.ve-inspector header,
+.ve-layouts,
+.ve-order,
+.ve-library header,
+.ve-library label span {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.ve-toolbar,
+.ve-save,
+.ve-library header {
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.ve-switch {
+  gap: 0;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 2px;
+}
+.admin .ve-switch button,
+.admin .ve-inspector button,
+.admin .ve-save button,
+.admin .ve-config,
+.admin .ve-add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+.admin .ve-switch button {
+  border: 0;
+  background: transparent;
+  border-radius: 3px;
+  min-height: 40px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.admin .ve-switch button[aria-pressed="true"] {
+  background: var(--dark);
+  color: white;
+}
+.ve-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(210px, 29%);
+  gap: 1rem;
+  align-items: start;
+}
+.ve-reading {
+  grid-template-columns: minmax(0, 1fr);
+}
+.ve-stage {
+  padding: clamp(0.6rem, 1.5vw, 1.5rem);
+  border: 1px solid var(--line);
+  background-color: #ebe8e5;
+  background-image: radial-gradient(#c9c4bf 1px, transparent 1px);
+  background-size: 12px 12px;
+  min-width: 0;
+}
+.ve-sheet {
+  container-type: inline-size;
+  margin-inline: auto;
+  background: var(--paper);
+  border: 1px solid #d4cfcb;
+  box-shadow: 0 4px 14px #27212112;
+  padding: clamp(0.75rem, 1.4vw, 1.4rem);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.ve-phone {
+  max-width: 360px;
+}
+.ve-mast {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.7rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid var(--line);
+}
+.ve-mast strong {
+  font: 800 0.85rem var(--display);
+  letter-spacing: 0.07em;
+}
+.ve-mast span,
+.ve-card small,
+.ve-fixed,
+.ve-facts small,
+.ve-inspector small,
+.ve-save span {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.ve-fixed {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  background: #f4f2f0;
+  padding: 0.55rem 0.7rem;
+  margin-block: 0.35rem;
+}
+.ve-zone {
+  position: relative;
+  border: 1px solid transparent;
+  min-width: 0;
+}
+.ve-selected {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.admin button.ve-hit {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+  border: 1px solid transparent;
+  background: transparent;
+  text-align: right;
+  border-radius: 0;
+}
+.admin button.ve-hit:hover,
+.admin button.ve-hit:focus-visible {
+  border-color: var(--accent);
+  background: #88323908;
+}
+.ve-hit span {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: var(--accent);
+  color: white;
+  padding: 0.16rem 0.42rem;
+  font: 600 0.68rem var(--body);
+  opacity: 0;
+}
+.ve-hit:is(:hover, :focus-visible) span,
+.ve-selected > .ve-hit span {
+  opacity: 1;
+}
+.ve-intro {
+  padding: 1.2rem 0.65rem 0.95rem;
+}
+.ve-intro strong {
+  display: block;
+  font: 660 clamp(1.6rem, 6.3cqw, 3.5rem)/1.08 var(--display);
+  letter-spacing: -0.06em;
+  white-space: pre-line;
+}
+.ve-intro b,
+.ve-intro p,
+.ve-copy p,
+.ve-contact p {
+  display: block;
+  margin-top: 0.45rem;
+  white-space: pre-line;
+}
+.ve-intro p,
+.ve-copy p,
+.ve-contact p {
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+.ve-intro small {
+  color: var(--muted);
+}
+.ve-cover {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  background: #242124;
+  color: white;
+  padding: 0;
+}
+.ve-cover:has(.ve-picture) {
+  grid-template-columns: 1fr 1fr;
+}
+.ve-cover > div:first-child {
+  padding: 1.1rem;
+}
+.ve-cover b,
+.ve-cover span {
+  font-size: 0.8rem;
+}
+.ve-cover span {
+  display: block;
+  margin-top: 0.8rem;
+  text-decoration: underline;
+}
+.ve-cover > .ve-picture {
+  height: 100%;
+  min-height: 120px;
+}
+.ve-picture {
+  position: relative;
+  display: block;
+  aspect-ratio: 1.6;
+  background: #e9e5e1;
+}
+.ve-picture img {
+  object-fit: cover;
+}
+.ve-facts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+  border-block: 1px solid var(--line);
+  padding: 0.8rem 0.5rem;
+}
+.ve-facts strong,
+.ve-card small {
+  display: block;
+  font-size: 0.86rem;
+}
+.ve-contact,
+.ve-copy {
+  padding: 0.85rem;
+}
+.admin .ve-config {
+  width: 100%;
+  justify-content: flex-start;
+  border: 0;
+  border-top: 1px solid var(--line);
+  background: transparent;
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+}
+.ve-config span {
+  margin-left: auto;
+  font-weight: 600;
+  color: var(--accent);
+}
+.ve-blocks,
+.ve-gallery {
+  display: grid;
+  gap: 0.6rem;
+  margin-block: 0.6rem;
+}
+.ve-gallery,
+.ve-compatto {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.ve-gallery > :first-child {
+  grid-column: 1 / -1;
+}
+.ve-gallery > :first-child .ve-picture {
+  aspect-ratio: 2.15;
+}
+.ve-standard .ve-card:has(.ve-picture):has(.ve-copy) {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+}
+.ve-blocks .ve-card {
+  background: #f4f0ef;
+  border: 1px solid var(--line);
+  height: 100%;
+}
+.ve-blocks .ve-picture img {
+  object-fit: contain;
+}
+.ve-ampio .ve-picture {
+  aspect-ratio: 2.1;
+}
+.ve-card small {
+  padding: 0.25rem 0.4rem;
+}
+.ve-empty {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 0.35rem;
+  padding: 1rem;
+  background: #ece9e6;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.admin .ve-add {
+  width: 100%;
+  border: 1px dashed #988986;
+  color: var(--accent);
+  background: white;
+}
+.ve-inspector {
+  position: sticky;
+  top: 90px;
+  min-width: 0;
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem;
+  background: white;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--accent);
+  overflow-wrap: anywhere;
+  scroll-margin-top: 90px;
+}
+.ve-stage {
+  scroll-margin-top: 90px;
+}
+.ve-inspector header {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.6rem;
+  color: var(--accent);
+}
+.ve-inspector h3 {
+  font-size: 1.08rem;
+  letter-spacing: -0.025em;
+}
+.ve-inspector label {
+  font-size: 0.86rem;
+}
+.admin .ve-layouts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.24rem;
+}
+.admin .ve-layouts button {
+  padding: 0.4rem 0.1rem;
+  flex-direction: column;
+  font-size: 0.7rem;
+}
+.admin .ve-layouts button[aria-pressed="true"],
+.admin .ve-config[aria-pressed="true"] {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: #f9eff0;
+}
+.admin .ve-remove {
+  color: var(--accent);
+}
+.ve-order > * {
+  flex: 1;
+}
+.admin .ve-inspector .ve-back {
+  display: none;
+}
+.ve-save {
+  border-top: 1px solid var(--line);
+  padding-top: 0.85rem;
+}
+.ve-publication:disabled .button {
+  opacity: 0.55;
+}
+.ve-library {
+  padding: 0;
+  border: 1px solid var(--line);
+  width: min(92vw, 720px);
+  max-height: 80dvh;
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  background: var(--paper);
+  color: var(--ink);
+}
+.ve-library::backdrop {
+  background: #211c1eba;
+}
+.ve-library-inner {
+  display: grid;
+  gap: 1rem;
+  padding: clamp(0.9rem, 3vw, 1.8rem);
+}
+.ve-media-grid {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(110px, 100%), 1fr));
+}
+.admin .ve-media-grid button {
+  display: block;
+  min-width: 0;
+  padding: 0.25rem;
+  text-align: left;
+  overflow-wrap: anywhere;
+  font-size: 0.78rem;
+}
+.ve-media-grid button[aria-pressed="true"] {
+  outline: 2px solid var(--accent);
+}
+.ve-historic-photo {
+  max-width: 220px;
+  width: 100%;
+}
+.ve-historic-photo img {
+  object-fit: contain;
+}
+.project-photos {
+  padding: clamp(0.8rem, 2vw, 1.4rem);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--accent);
+  display: grid;
+  gap: 0.7rem;
+}
+.project-photos > header,
+.project-photos h3,
+.project-photos > .admin-actions button {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+.project-photos > header {
+  justify-content: space-between;
+}
+.project-photos > header span,
+.project-photo-archive p {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.project-photo-archive {
+  border-top: 1px solid var(--line);
+  padding-top: 0.75rem;
+}
+.project-photo-archive h4 {
+  font-weight: 650;
+}
+.project-photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(125px, 100%), 1fr));
+  gap: 0.5rem;
+  margin-top: 0.4rem;
+}
+.admin .project-photo-grid button {
+  min-width: 0;
+  text-align: left;
+  padding: 0.35rem;
+  font-size: 0.8rem;
+  overflow-wrap: anywhere;
+}
+.project-photo-grid .ve-picture {
+  margin-bottom: 0.3rem;
+}
+.ve-photo-caption {
+  padding: 0 0.5rem 0.4rem;
+  font-size: 0.84rem;
+  overflow-wrap: anywhere;
+}
+.project-order-list,
+.ve-showcase-picker {
+  display: grid;
+  gap: 0.65rem;
+}
+.project-order-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem;
+  border: 1px solid var(--line);
+}
+.project-order-list .ve-picture {
+  flex: none;
+  width: 4rem;
+}
+.project-order-list li > div:first-of-type {
+  flex: 1 1 6rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.project-order-list small {
+  display: block;
+  color: var(--muted);
+}
+.admin .project-order-list button {
+  padding: 0.45rem;
+  min-width: 44px;
+}
+.ve-showcase {
+  padding: 1rem;
+}
+.ve-showcase h3 {
+  margin-bottom: 0.6rem;
+}
+.ve-showcase ol {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 8.5rem), 1fr));
+  gap: 0.65rem;
+}
+.ve-showcase li {
+  overflow-wrap: anywhere;
+}
+.ve-showcase strong {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+}
+.ve-sheet .project-title h3 {
+  font-size: clamp(1.8rem, 8cqw, 4rem);
+}
+@container (max-width: 375px) {
+  .ve-standard .ve-card:has(.ve-picture):has(.ve-copy),
+  .ve-compatto,
+  .ve-cover:has(.ve-picture) {
+    grid-template-columns: 1fr;
+  }
+  .ve-cover > .ve-picture {
+    min-height: 0;
+    max-height: 150px;
+    width: 100%;
+  }
+}
+@media (max-width: 950px) {
+  .ve-workspace {
+    grid-template-columns: 1fr;
+  }
+  .ve-inspector {
+    position: static;
+  }
+  .admin .ve-inspector .ve-back {
+    display: block;
+  }
+}
+@media (max-width: 680px) {
+  .admin-split {
+    grid-template-columns: 1fr;
+  }
+  .admin-split > nav.admin-list {
+    display: flex;
+    max-width: 100%;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  .admin-split > nav.admin-list a {
+    flex: none;
+  }
+  .admin .ve-toolbar {
+    gap: 0.5rem;
+  }
+  .admin .ve-switch button {
+    padding: 0.45rem;
+  }
+}
+
+.service-photo-editor {
+  display: grid;
+  gap: .75rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+}
+.service-photo-editor .service-photo { max-width: 34rem; }
+.service-photo-editor > button { justify-self: start; }
+.service-photo-actions { display: flex; flex-wrap: wrap; gap: .6rem; }

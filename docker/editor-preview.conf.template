@@ -1,0 +1,18 @@
+server {
+    listen 8080;
+    server_tokens off;
+    client_max_body_size 10m;
+
+    add_header X-Robots-Tag "noindex, nofollow, noarchive" always;
+    add_header Cache-Control "private, no-store" always;
+    proxy_hide_header Cache-Control;
+    proxy_hide_header X-Robots-Tag;
+
+    location / {
+        proxy_set_header Host ${LOBO_EDITOR_HOST};
+        proxy_set_header X-Forwarded-Host ${LOBO_EDITOR_HOST};
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Forwarded-Port 443;
+        proxy_pass http://studio:3000;
+    }
+}

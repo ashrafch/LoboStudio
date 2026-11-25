@@ -1,6 +1,8 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { categories, mediaUrl, type Project } from "@/content/projects";
 import { ProjectImage } from "./project-image";
+import { ProjectCard } from "./motion/project-card";
 
 export function Breadcrumb({ items }: { items: readonly [string, string?][] }) {
   return (
@@ -23,11 +25,22 @@ export function Breadcrumb({ items }: { items: readonly [string, string?][] }) {
   );
 }
 
-export function Intro({ title, text }: { title: string; text?: string }) {
+export function Intro({
+  title,
+  text,
+  aside,
+}: {
+  title: string;
+  text?: string;
+  aside?: ReactNode;
+}) {
   return (
     <div className="page-intro">
-      <h1>{title}</h1>
-      {text && <p>{text}</p>}
+      <div>
+        <h1>{title}</h1>
+        {text && <p>{text}</p>}
+      </div>
+      {aside}
     </div>
   );
 }
@@ -36,25 +49,25 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
   return (
     <div className="project-grid">
       {projects.map((project) => (
-        <article key={project.slug}>
-          <Link className="project-tile" href={"/progetti/" + project.slug}>
-            <div className="project-picture">
-              <ProjectImage
-                {...project.gallery[0]}
-                src={mediaUrl(project.gallery[0].file)}
-              />
-            </div>
-            <p className="eyebrow">
-              {
-                categories.find(
-                  (category) => category.slug === project.category,
-                )?.label
-              }
-              {project.status !== "published" ? " · Anteprima" : ""}
-            </p>
-            <h3>{project.title}</h3>
-          </Link>
-        </article>
+        <ProjectCard
+          key={project.slug}
+          href={"/progetti/" + project.slug}
+          image={
+            <ProjectImage
+              {...project.gallery[0]}
+              src={mediaUrl(project.gallery[0].file)}
+            />
+          }
+        >
+          <p className="eyebrow">
+            {
+              categories.find((category) => category.slug === project.category)
+                ?.label
+            }
+            {project.status !== "published" ? " · Anteprima" : ""}
+          </p>
+          <h3>{project.title}</h3>
+        </ProjectCard>
       ))}
     </div>
   );

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "studi-di-fattibilita",
+    "title": "Studi di fattibilità",
+    "description": "Valutazione preliminare di vincoli, esigenze e scenari d’intervento.",
+    "alt": "Vista aerea di un contesto urbano e di un intervento edilizio",
+    "source": "https://www.pexels.com/photo/aerial-view-of-construction-site-in-urban-area-38930449/",
+    "photographer": "Nguyen Truong An"
+  },
+  {
+    "id": "progettazione-architettonica",
+    "title": "Progettazione architettonica",
+    "description": "Sviluppo degli spazi e delle relazioni tra edificio e contesto.",
+    "alt": "Architetto al lavoro su un modello planivolumetrico",
+    "source": "https://www.pexels.com/photo/architect-working-with-architectural-model-9618450/",
+    "photographer": "Ron Lach"
+  },
+  {
+    "id": "progettazione-strutturale",
+    "title": "Progettazione strutturale",
+    "description": "Studio del sistema resistente per nuove opere e interventi sull’esistente.",
+    "alt": "Geometrie e travi di una struttura in cemento in bianco e nero",
+    "source": "https://www.pexels.com/photo/concrete-construction-with-columns-and-pillars-5961646/",
+    "photographer": "Kalia Chan"
+  },
+  {
+    "id": "gestione-progetti-integrati",
+    "title": "Gestione di progetti integrati",
+    "description": "Coordinamento tra discipline e verifica delle interferenze progettuali.",
+    "alt": "Team di progettazione che collabora su un modello di edificio",
+    "source": "https://www.pexels.com/photo/team-collaboration-on-architectural-model-project-31120859/",
+    "photographer": "Yusuf Celik"
+  },
+  {
+    "id": "project-management",
+    "title": "Project management",
+    "description": "Organizzazione di attività, responsabilità e fasi del progetto.",
+    "alt": "Tecnica di cantiere che controlla documenti e avanzamento dei lavori",
+    "source": "https://www.pexels.com/photo/person-in-blue-long-sleeves-holding-a-brown-clipboard-8960941/",
+    "photographer": "Mikael Blomkvist"
+  },
+  {
+    "id": "collaudi",
+    "title": "Collaudi",
+    "description": "Verifiche tecniche a supporto della valutazione delle opere.",
+    "alt": "Verifica dimensionale in cantiere con metro a nastro",
+    "source": "https://www.pexels.com/photo/woman-in-yellow-hardhat-measuring-the-wall-8488026/",
+    "photographer": "Kindel Media"
+  },
+  {
+    "id": "consulenza-tecnico-amministrativa",
+    "title": "Consulenza tecnico-amministrativa",
+    "description": "Supporto nella lettura dei vincoli e nella preparazione delle pratiche.",
+    "alt": "Pratiche amministrative con documenti cartacei e timbri",
+    "source": "https://www.pexels.com/photo/desk-with-documents-and-stamps-18687845/",
+    "photographer": "Ylanite Koppens"
+  }
+]

@@ -8,13 +8,16 @@ export function ProjectImage({
   alt,
   priority = false,
   sizes = "(max-width: 700px) 100vw, 55vw",
+  fallback,
 }: {
   src: string;
   alt: string;
   priority?: boolean;
   sizes?: string;
+  fallback?: React.ReactNode;
 }) {
   const [failed, setFailed] = useState(false);
+  if (failed && fallback) return fallback;
   if (failed)
     return (
       <div
@@ -33,7 +36,7 @@ export function ProjectImage({
       sizes={sizes}
       fetchPriority={priority ? "high" : undefined}
       loading={priority ? "eager" : "lazy"}
-      unoptimized={src.startsWith("/anteprima-media/")}
+      unoptimized={src.startsWith("/anteprima-media/") || src.startsWith("/media/cms/")}
       onError={() => setFailed(true)}
     />
   );

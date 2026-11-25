@@ -3,6 +3,10 @@ import Link from "next/link";
 import { EditorialPage } from "@/components/editorial-page";
 import { localPreview } from "@/content/projects";
 import { press } from "@/content/press";
+const articleDate = new Intl.DateTimeFormat("it-IT", {
+  dateStyle: "long",
+  timeZone: "UTC",
+});
 export const metadata = pageMetadata(
   "/rassegna-stampa",
   "Rassegna stampa",
@@ -10,10 +14,7 @@ export const metadata = pageMetadata(
 );
 export default function Page() {
   return (
-    <EditorialPage
-      title="Rassegna stampa"
-      text="Articoli e pubblicazioni dedicati ai progetti."
-    >
+    <EditorialPage page="stampa">
       <div className="prose-block">
         {localPreview ? (
           <>
@@ -24,7 +25,9 @@ export default function Page() {
               <article key={article.url}>
                 <p className="eyebrow">
                   {article.source} · {article.author} ·{" "}
-                  <time dateTime={article.date}>14 gennaio 2021</time>
+                  <time dateTime={article.date}>
+                    {articleDate.format(new Date(article.date))}
+                  </time>
                 </p>
                 <h2>{article.title}</h2>
                 <p>{article.summary}</p>

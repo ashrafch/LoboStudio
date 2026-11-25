@@ -1,4 +1,6 @@
 import { z } from "zod";
+import { historicalEntries, projectEntries } from "./entries";
+import { projectLayouts, photoStages } from "./presentation";
 
 export const categories = [
   {
@@ -9,14 +11,15 @@ export const categories = [
   },
   {
     slug: "ristrutturazioni",
-    label: "Ristrutturazioni",
+    label: "Ristrutturazioni e recupero",
     intro:
       "Trasformazioni del costruito, dagli interni agli interventi sull’intero edificio.",
   },
   {
     slug: "strutture",
-    label: "Strutture",
-    intro: "Progettazione strutturale e interventi sul patrimonio esistente.",
+    label: "Strutture e adeguamenti sismici",
+    intro:
+      "Progettazione strutturale, consolidamento e interventi per le costruzioni in zona sismica.",
   },
   {
     slug: "piani-urbanistici",
@@ -31,6 +34,8 @@ const mediaSchema = z.object({
     .regex(/^(?:[a-z0-9-]+|\/media\/[a-z0-9/-]+\.(?:webp|jpg|avif))$/),
   alt: z.string().min(8),
   credit: z.string().optional(),
+  caption: z.string().optional(),
+  stage: z.enum(photoStages).optional(),
 });
 const projectSchema = z
   .object({
@@ -38,13 +43,21 @@ const projectSchema = z
     title: z.string().min(3),
     category: z.enum(categories.map(({ slug }) => slug)),
     description: z.string().min(20),
-    gallery: z.array(mediaSchema).min(1),
+    summary: z.string().optional(),
+    presentation: z.enum(projectLayouts).default("essenziale"),
+    gallery: z.array(mediaSchema),
     featured: z.boolean(),
     status: z.enum(["draft", "review", "published"]),
     role: z.string().optional(),
     year: z.number().int().optional(),
+    period: z.string().optional(),
     location: z.string().optional(),
+    sources: z.array(z.string()).optional(),
   })
+  .refine(
+    (project) => !project.featured || project.gallery.length > 0,
+    "I progetti in evidenza richiedono una copertina.",
+  )
   .refine(
     (project) =>
       project.status !== "published" ||
@@ -57,9 +70,11 @@ const projectSchema = z
 export type Project = z.infer<typeof projectSchema>;
 export type ProjectMedia = z.infer<typeof mediaSchema>;
 
+export const clientPreview = process.env.LOBO_CLIENT_PREVIEW === "1";
 export const localPreview =
-  process.env.NODE_ENV === "development" &&
-  process.env.LOBO_LOCAL_PREVIEW === "1";
+  clientPreview ||
+  (process.env.NODE_ENV === "development" &&
+    process.env.LOBO_LOCAL_PREVIEW === "1");
 const atlas = z
   .array(projectSchema)
   .refine(
@@ -67,72 +82,7 @@ const atlas = z
       new Set(projects.map((project) => project.slug)).size === projects.length,
     "Slug duplicati",
   )
-  .parse([
-    {
-      slug: "residenza-con-giardino",
-      title: "Residenza con giardino",
-      category: "nuove-costruzioni",
-      description:
-        "Una residenza a due livelli affacciata su un giardino. Titolo descrittivo di anteprima.",
-      gallery: [
-        {
-          file: "malvezza",
-          alt: "Rendering di una residenza a due livelli con giardino",
-        },
-      ],
-      featured: true,
-      status: "review",
-    },
-    {
-      slug: "torri-residenziali",
-      title: "Torri residenziali",
-      category: "nuove-costruzioni",
-      description:
-        "Due edifici residenziali con logge e terrazze. Titolo descrittivo di anteprima.",
-      gallery: [
-        {
-          file: "spadini",
-          alt: "Rendering di due torri residenziali su un fronte urbano",
-        },
-        {
-          file: "torri",
-          alt: "Rendering di un edificio residenziale con balconi sfalsati",
-        },
-      ],
-      featured: true,
-      status: "review",
-    },
-    {
-      slug: "fronti-industriali",
-      title: "Fronti industriali",
-      category: "ristrutturazioni",
-      description:
-        "Una sequenza di coperture a falda e ingressi illuminati scandisce il fronte. Titolo descrittivo di anteprima.",
-      gallery: [
-        {
-          file: "esterno-notte",
-          alt: "Vista serale di un fronte industriale con coperture a falda",
-        },
-      ],
-      featured: true,
-      status: "review",
-    },
-    {
-      slug: "facciata-e-percorsi",
-      title: "Facciata e percorsi",
-      category: "ristrutturazioni",
-      description:
-        "Vetrate e ingressi si alternano lungo un percorso esterno pavimentato. Titolo descrittivo di anteprima.",
-      gallery: [
-        {
-          file: "pganino",
-          alt: "Vista prospettica di un percorso esterno davanti a vetrate",
-        },
-      ],
-      featured: false,
-      status: "review",
-    },
-  ]);
+  .parse([...projectEntries, ...historicalEntries]);
 
 export function visibleProjects(preview: boolean) {
   return atlas.filter(
@@ -154,8 +104,11 @@ export function searchProjects(projects: Project[], query: string) {
     const haystack = normalize(
       [
         project.title,
+        project.summary,
         project.description,
         project.location,
+        project.period,
+        project.role,
         category?.label,
       ].join(" "),
     );

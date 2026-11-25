@@ -39,12 +39,12 @@ LoboStudio/
 ├─ public/
 │  ├─ brand/
 │  └─ media/                # DERIVATI WEB, non originali
-├─ asset/                    # Originali consegnati: salvaguardare
+├─ assets/                   # Archivio privato di originali e materiali di lavoro
 ├─ tests/
 │  ├─ unit/
 │  └─ e2e/
 ├─ docs/
-├─ .agents/skills/
+├─ docker/                   # Compose e gateway delle anteprime riservate
 ├─ .github/workflows/
 ├─ AGENTS.md
 ├─ .env.example

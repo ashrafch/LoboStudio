@@ -1,29 +1,42 @@
 import { pageMetadata } from "@/content/metadata";
 import Link from "next/link";
 import { EditorialPage } from "@/components/editorial-page";
-import { contact } from "@/content/site";
+import { contact as archivedContact } from "@/content/site";
+import { pageContent } from "@/content/cms/public";
 export const metadata = pageMetadata(
   "/contatti",
   "Contatti",
   "Recapiti e richieste di collaborazione.",
 );
-export default function Page() {
+export default async function Page() {
+  const content = await pageContent("contatti");
+  const contact =
+    content && (content.email || content.phone || content.address)
+      ? {
+          person: "Studio Lobo",
+          email: content.email,
+          phone: content.phone,
+          address: content.address,
+          tel: content.phone?.replace(/[^+0-9]/g, ""),
+        }
+      : archivedContact;
   return (
-    <EditorialPage
-      title="Contatti"
-      text="Nuovi incarichi, consulenze e collaborazioni professionali."
-    >
+    <EditorialPage page="contatti">
       {contact ? (
         <>
           <div className="section split">
             <div>
               <h2>Scrivi allo studio</h2>
-              <p className="results">
-                Recapiti del sito precedente, in verifica.
-              </p>
-              <a className="button" href={"mailto:" + contact.email}>
-                Invia un’email
-              </a>
+              {contact === archivedContact && (
+                <p className="results">
+                  Recapiti del sito precedente, in verifica.
+                </p>
+              )}
+              {contact.email && (
+                <a className="button" href={"mailto:" + contact.email}>
+                  Invia un’email
+                </a>
+              )}
             </div>
             <address className="not-italic line-list">
               <p>
@@ -31,16 +44,22 @@ export default function Page() {
                 <br />
                 {contact.address}
               </p>
-              <a href={"tel:" + contact.tel}>{contact.phone}</a>
-              <a href={"mailto:" + contact.email}>{contact.email}</a>
-              <a
-                href={
-                  "https://www.google.com/maps/search/?api=1&query=" +
-                  encodeURIComponent(contact.address)
-                }
-              >
-                Indicazioni su Google Maps
-              </a>
+              {contact.phone && (
+                <a href={"tel:" + contact.tel}>{contact.phone}</a>
+              )}
+              {contact.email && (
+                <a href={"mailto:" + contact.email}>{contact.email}</a>
+              )}
+              {contact.address && (
+                <a
+                  href={
+                    "https://www.google.com/maps/search/?api=1&query=" +
+                    encodeURIComponent(contact.address)
+                  }
+                >
+                  Indicazioni su Google Maps
+                </a>
+              )}
             </address>
           </div>
           <div className="prose-block">

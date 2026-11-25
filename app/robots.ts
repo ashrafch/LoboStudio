@@ -4,7 +4,7 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: "*",
-      ...(indexing ? { allow: "/" } : { disallow: "/" }),
+      ...(indexing ? { allow: "/", disallow: "/admin" } : { disallow: "/" }),
     },
     sitemap:
       indexing && siteUrl ? new URL("/sitemap.xml", siteUrl).href : undefined,

@@ -5,7 +5,12 @@ export default defineConfig([
   ...next,
   ...typescript,
   globalIgnores([
+    ".agents/**",
+    ".claude/**",
+    ".codex/**",
     ".next/**",
+    "asset/**",
+    "assets/**",
     "next-env.d.ts",
     "LoboStudio_Codex_Kit_v0.1/**",
     "_archive/**",

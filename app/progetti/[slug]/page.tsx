@@ -1,42 +1,39 @@
 import { pageMetadata } from "@/content/metadata";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Breadcrumb, Intro, ProjectGrid } from "@/components/editorial";
-import { Gallery } from "@/components/gallery";
-import {
-  categories,
-  localPreview,
-  mediaUrl,
-  visibleProjects,
-} from "@/content/projects";
+import { Breadcrumb, ProjectGrid } from "@/components/editorial";
+import { ProjectPresentation } from "@/components/project-presentation";
+import { categories, localPreview, mediaUrl } from "@/content/projects";
+import { publicProjects } from "@/content/cms/public";
 
 type Params = Promise<{ slug: string }>;
-export function generateStaticParams() {
-  return visibleProjects(localPreview).map(({ slug }) => ({ slug }));
-}
 export async function generateMetadata({ params }: { params: Params }) {
   const { slug } = await params;
-  const project = visibleProjects(localPreview).find(
+  const project = (await publicProjects(localPreview)).find(
     (item) => item.slug === slug,
   );
   return project
-    ? pageMetadata("/progetti/" + slug, project.title, project.description)
+    ? pageMetadata(
+        "/progetti/" + slug,
+        project.title,
+        project.summary || project.description,
+      )
     : {};
 }
 export default async function Page({ params }: { params: Params }) {
   const { slug } = await params;
-  const projects = visibleProjects(localPreview);
+  const projects = await publicProjects(localPreview);
   const project = projects.find((item) => item.slug === slug);
   if (!project) notFound();
   const category = categories.find((item) => item.slug === project.category)!;
   const related = projects
-    .filter((item) => item.category === category.slug && item.slug !== slug)
+    .filter(
+      (item) =>
+        item.category === category.slug &&
+        item.slug !== slug &&
+        item.gallery.length > 0,
+    )
     .slice(0, 3);
-  const details = [
-    ["Ruolo", project.role],
-    ["Località", project.location],
-    ["Anno", project.year],
-  ].filter(([, value]) => value !== undefined);
   return (
     <div className="frame inner-page">
       <Breadcrumb
@@ -46,31 +43,21 @@ export default async function Page({ params }: { params: Params }) {
           [project.title],
         ]}
       />
-      <Intro title={project.title} text={project.description} />
-      {details.length > 0 && (
-        <dl className="details">
-          {details.map(([label, value]) => (
-            <div key={label}>
-              <dt>{label}</dt>
-              <dd>{value}</dd>
-            </div>
-          ))}
-        </dl>
-      )}
-      <Gallery
-        frames={project.gallery.map((media) => ({
-          src: mediaUrl(media.file),
-          alt: media.alt,
+      <ProjectPresentation
+        title={project.title}
+        summary={project.summary}
+        description={project.description}
+        layout={project.presentation}
+        frames={project.gallery.map(({ file, ...photo }) => ({
+          ...photo,
+          src: mediaUrl(file),
         }))}
+        facts={{
+          location: project.location,
+          period: project.period ?? project.year,
+          role: project.role,
+        }}
       />
-      {project.gallery.some((media) => media.credit) && (
-        <p className="results">
-          Crediti immagini ·{" "}
-          {[
-            ...new Set(project.gallery.flatMap((media) => media.credit ?? [])),
-          ].join(", ")}
-        </p>
-      )}
       {related.length > 0 && (
         <section className="section">
           <h2>Progetti correlati</h2>

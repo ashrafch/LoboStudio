@@ -49,4 +49,21 @@ status: draft|review|published
 ```
 
 ## Migrazione e responsabilità
+
+### Importazione dei materiali di novembre 2026
+
+Le schede in `assets/archive/weebly/infoImage/` sono fonti storiche. Le quattro liste delle attività hanno alimentato le schede ricercabili del portfolio. Dove la tavola conteneva fotografie o rendering isolabili, i ritagli sono stati estratti senza le intestazioni e i testi impaginati. Le descrizioni sono testo della pagina e ogni scheda conserva i riferimenti agli originali.
+
+| Fonte | Uso nell’anteprima |
+|---|---|
+| `nuovecostruzioni/` e `ultimiprogetti/` | Torri Spadini, Via San Pier Tommaso, Tagliacozzi, Complesso Borgonuovo, Residenza Porta Saffi, Officine Arcoveggio e Via Toffano, oltre alle schede degli elenchi. |
+| `ristrutturazioneErecupero/`, `Struttureedadeguamentisismici/`, `pianiurbanistici/` | Archivio documentale per recupero, strutture e urbanistica. La scheda di Monte San Pietro usa la veduta identificata dal nome del file. |
+| `studioecurriculum/` e `profilo/` | Ritratto di Lorenzo e cenni sulla formazione. Recapiti, dati fiscali e iscrizioni citati nel curriculum storico vanno verificati prima della pubblicazione. |
+| `clienti/` e `paraladinoi/` | Loghi nell’anteprima e riferimenti editoriali con link alle fonti. I loghi non attestano un rapporto commerciale attuale. |
+
+Arcoveggio 48 e le Officine Arcoveggio hanno due schede. Le tavole storiche collegano le Officine a via Manin, mentre il rendering di Arcoveggio 48 è identificato dalla cartella di consegna. Le foto in `strutture/` che non riportano un collegamento verificabile a una commessa sono raccolte nella galleria di cantiere. Il rendering notturno `4442340_orig.png` e la vista `whatsapp-image-2025-01-24-at-18-30-37-1_orig.jpeg` restano da attribuire. I file parziali `.crdownload` sono censiti e restano fuori dall’anteprima.
+
+I record progetto si trovano in `content/projects/entries.ts`, il registro dei media in `content/preview-images.json` e l’inventario con hash e duplicati in `docs/asset-manifest.csv`. Questa struttura fornisce al futuro pannello campi per categoria, testo, periodo, ruolo, galleria e stato editoriale. Per la versione pubblica restano da confermare attribuzioni, crediti e autorizzazioni.
+
+Le schermate Weebly del 20 novembre 2026 documentano il profilo (n. 6), la home e l’archivio per categorie (7–8), il resoconto post-sisma (9) e i quattro archivi fotografici (10–13). Il profilo riporta il 1966 come anno di nascita e il 1995 come apertura dello studio a Bologna. Il dato di 2,6 milioni di euro e la scadenza del 2014 appartengono al resoconto storico. Biografia, attività post-sisma e cifre sono riportate in anteprima per la revisione. Le miniature senza didascalia non identificano con certezza singoli cantieri o committenti.
 Raccogliere i progetti uno per uno quando arriverà la cartella completa. Non assumere che ogni foto sia un progetto distinto, né che tutti i rendering rappresentino lavori completati. Distinguere rendering/proposta, cantiere, opera realizzata. Preservare fonti e liberatorie ove necessario.

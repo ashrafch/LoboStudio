@@ -1,0 +1,96 @@
+.dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: min(94vw, 60rem);
+  max-height: 94dvh;
+  overflow: auto;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+
+.dialog::backdrop {
+  background: rgb(25 22 24 / 82%);
+}
+
+.header,
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  padding: 0.5rem clamp(0.75rem, 2vw, 1.25rem);
+}
+
+.header {
+  flex-wrap: nowrap;
+}
+
+.header h3 {
+  font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+}
+
+.header button,
+.pager button {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+}
+
+.header button:hover,
+.pager button:enabled:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.pager button:disabled {
+  opacity: 0.4;
+}
+
+.viewport {
+  position: relative;
+  height: min(63dvh, 57vw, 40rem);
+  min-height: 7rem;
+  overflow: hidden;
+  background: #e9e5e1;
+}
+
+.viewport[data-draggable="true"] {
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+}
+
+.viewport[data-draggable="true"]:active {
+  cursor: grabbing;
+}
+
+.photo {
+  position: absolute;
+  inset: 0;
+}
+
+.photo img {
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.controls a,
+.pager {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.pager span {
+  min-width: 7ch;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}

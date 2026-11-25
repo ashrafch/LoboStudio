@@ -3,7 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronDown, Menu, X } from "lucide-react";
-import { useRef, useState } from "react";
+import { useReducedPreference } from "./motion/settings";
+import * as m from "motion/react-m";
+import { useEffect, useRef, useState } from "react";
+import {
+  gestureTransition,
+  instant,
+  menuTransition,
+} from "./motion/transitions";
 
 const links = [
   ["/studio", "Studio"],
@@ -24,6 +31,7 @@ export function Navigation({
   const [mobile, setMobile] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [hover, setHover] = useState(false);
+  const reduced = useReducedPreference();
   const menuButton = useRef<HTMLButtonElement>(null);
   const categoryButton = useRef<HTMLButtonElement>(null);
   const open = expanded || hover;
@@ -32,6 +40,11 @@ export function Navigation({
     setExpanded(false);
     setHover(false);
   };
+  useEffect(() => {
+    const breakpoint = window.matchMedia("(max-width: 800px)");
+    breakpoint.addEventListener("change", close);
+    return () => breakpoint.removeEventListener("change", close);
+  }, []);
   return (
     <header
       className="site-header"
@@ -52,12 +65,10 @@ export function Navigation({
           className="brand"
           href="/"
           onClick={close}
-          aria-label="LoboStudio, home"
+          aria-label="LOBO, home"
         >
           {mark}
-          <span>
-            LOBO<span className="brand-sub">STUDIO</span>
-          </span>
+          {!mark && <span>LOBO</span>}
         </Link>
         <button
           className="mobile-control icon"
@@ -68,13 +79,36 @@ export function Navigation({
           onClick={() => (mobile ? close() : setMobile(true))}
           aria-label={mobile ? "Chiudi navigazione" : "Apri navigazione"}
         >
-          {mobile ? <X /> : <Menu />}
+          <m.span
+            key={mobile ? "close" : "open"}
+            className="navigation-icon"
+            aria-hidden="true"
+            initial={reduced ? false : { rotate: -15 }}
+            animate={{ rotate: 0 }}
+            transition={reduced ? instant : gestureTransition}
+          >
+            {mobile ? <X /> : <Menu />}
+          </m.span>
         </button>
-        <nav
+        <m.nav
           aria-label="Principale"
           id="navigation"
           className={mobile ? "navigation mobile-open" : "navigation"}
+          initial={false}
+          animate={
+            mobile && reduced === false
+              ? { y: [-6, 0], opacity: [0.84, 1] }
+              : { y: 0, opacity: 1 }
+          }
+          transition={reduced ? instant : menuTransition}
         >
+          <Link
+            href="/"
+            aria-current={pathname === "/" ? "page" : undefined}
+            onClick={close}
+          >
+            Home
+          </Link>
           <div
             className="drop"
             onPointerEnter={(event) => {
@@ -108,10 +142,25 @@ export function Navigation({
                   if (expanded) setHover(false);
                 }}
               >
-                <ChevronDown size={16} />
+                <m.span
+                  className="navigation-icon"
+                  aria-hidden="true"
+                  initial={false}
+                  animate={{ rotate: open ? 180 : 0 }}
+                  transition={reduced ? instant : gestureTransition}
+                >
+                  <ChevronDown size={16} />
+                </m.span>
               </button>
             </div>
-            <ul className="drop-panel" id="project-menu" hidden={!open}>
+            <m.ul
+              className="drop-panel"
+              id="project-menu"
+              hidden={!open}
+              initial={false}
+              animate={{ opacity: open && reduced === false ? [0.72, 1] : 1 }}
+              transition={reduced ? instant : menuTransition}
+            >
               {categories.map(({ slug, label }) => (
                 <li key={slug}>
                   <Link href={"/progetti/categoria/" + slug} onClick={close}>
@@ -124,7 +173,7 @@ export function Navigation({
                   Contributi sisma Emilia 2012
                 </Link>
               </li>
-            </ul>
+            </m.ul>
           </div>
           {links.map(([href, label]) => (
             <Link
@@ -137,7 +186,7 @@ export function Navigation({
               {label}
             </Link>
           ))}
-        </nav>
+        </m.nav>
       </div>
     </header>
   );

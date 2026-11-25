@@ -1,0 +1,55 @@
+name: lobostudio-editor
+services:
+  studio:
+    build:
+      context: ..
+      target: production
+      args:
+        LOBO_CLIENT_PREVIEW: "1"
+    environment:
+      CMS_DB_PATH: /data/site.sqlite
+      CMS_ORIGIN: https://${LOBO_EDITOR_HOST:?Set the editor preview host}
+      CMS_PASSWORD_HASH: ${LOBO_EDITOR_PASSWORD_HASH:?Create a dedicated CMS credential}
+      LOBO_CLIENT_PREVIEW: "1"
+      LOBO_INDEXING: "0"
+    volumes:
+      - cms-data:/data
+      - type: bind
+        source: ${LOBO_EDITOR_MEDIA_DIR:?Set the review media snapshot}/images
+        target: /app/.local-media
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${LOBO_EDITOR_MEDIA_DIR:?Set the review media snapshot}/videos
+        target: /app/assets/archive/videos
+        read_only: true
+        bind:
+          create_host_path: false
+    init: true
+    restart: unless-stopped
+    networks: [app]
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+  gateway:
+    image: nginx:stable-alpine@sha256:caf4e1e032a20f9c3c5e28fc7f25ffd768ad8677b4975c54193075997b3a97e3
+    depends_on:
+      studio:
+        condition: service_healthy
+    environment:
+      LOBO_EDITOR_HOST: ${LOBO_EDITOR_HOST:?Set the editor preview host}
+    volumes:
+      - ./editor-preview.conf.template:/etc/nginx/templates/default.conf.template:ro
+    ports:
+      - "127.0.0.1:3083:8080"
+    restart: unless-stopped
+    networks: [app, edge]
+    security_opt:
+      - no-new-privileges:true
+networks:
+  app:
+    internal: true
+  edge:
+volumes:
+  cms-data:

@@ -1,30 +1,26 @@
-export const services = [
-  [
-    "Studi di fattibilità",
-    "Valutazione preliminare di vincoli, esigenze e scenari d’intervento.",
-  ],
-  [
-    "Progettazione architettonica",
-    "Sviluppo degli spazi e delle relazioni tra edificio e contesto.",
-  ],
-  [
-    "Progettazione strutturale",
-    "Studio del sistema resistente per nuove opere e interventi sull’esistente.",
-  ],
-  [
-    "Gestione di progetti integrati",
-    "Coordinamento tra discipline e verifica delle interferenze progettuali.",
-  ],
-  [
-    "Project management",
-    "Organizzazione di attività, responsabilità e fasi del progetto.",
-  ],
-  ["Collaudi", "Verifiche tecniche a supporto della valutazione delle opere."],
-  [
-    "Consulenza tecnico-amministrativa",
-    "Supporto nella lettura dei vincoli e nella preparazione delle pratiche.",
-  ],
-] as const;
+import catalog from "./photos.json";
+
+export const services = catalog;
+
+export type ServicePhotoOverrides = Record<
+  string,
+  { image: string; alt: string } | null
+>;
+
+export function servicePhoto(
+  service: (typeof services)[number],
+  overrides?: ServicePhotoOverrides,
+) {
+  const choice = overrides?.[service.id];
+  if (choice === null) return null;
+  if (choice)
+    return { src: "/media/cms/" + choice.image, alt: choice.alt, credit: "" };
+  return {
+    src: "/media/attivita/" + service.id + ".webp",
+    alt: service.alt,
+    credit: "Foto illustrativa · " + service.photographer + " / Pexels",
+  };
+}
 
 export const method = [
   [

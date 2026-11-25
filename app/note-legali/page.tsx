@@ -5,10 +5,7 @@ export const metadata = {
 };
 export default function Page() {
   return (
-    <EditorialPage
-      title="Note legali"
-      text="Bozza da completare e approvare prima della pubblicazione."
-    >
+    <EditorialPage page="legali">
       <div className="prose-block">
         <p>
           Denominazione professionale, sede, partita IVA, estremi professionali

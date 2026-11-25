@@ -5,10 +5,7 @@ export const metadata = {
 };
 export default function Page() {
   return (
-    <EditorialPage
-      title="Privacy"
-      text="Bozza da completare e approvare prima della pubblicazione."
-    >
+    <EditorialPage page="privacy">
       <div className="prose-block">
         <h2>Navigazione e contatti</h2>
         <p>

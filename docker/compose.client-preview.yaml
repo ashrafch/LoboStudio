@@ -1,0 +1,45 @@
+name: lobostudio-client
+services:
+  studio:
+    build:
+      context: ..
+      target: production
+      args:
+        LOBO_CLIENT_PREVIEW: "1"
+    environment:
+      LOBO_CLIENT_PREVIEW: "1"
+      LOBO_INDEXING: "0"
+    volumes:
+      - type: bind
+        source: ${LOBO_CLIENT_MEDIA_DIR:?Prepare a client media snapshot first}/images
+        target: /app/.local-media
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ${LOBO_CLIENT_MEDIA_DIR:?Prepare a client media snapshot first}/videos
+        target: /app/assets/archive/videos
+        read_only: true
+        bind:
+          create_host_path: false
+    init: true
+    networks: [app]
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: [ALL]
+  gateway:
+    image: nginx:stable-alpine@sha256:caf4e1e032a20f9c3c5e28fc7f25ffd768ad8677b4975c54193075997b3a97e3
+    depends_on:
+      studio:
+        condition: service_healthy
+    volumes:
+      - ./client-preview.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "127.0.0.1:3082:8080"
+    networks: [app, edge]
+    security_opt:
+      - no-new-privileges:true
+networks:
+  app:
+    internal: true
+  edge:

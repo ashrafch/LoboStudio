@@ -1,8 +1,10 @@
-# Skill Codex — come usarle senza duplicati
+# Skill e configurazioni locali
 
-Codex cerca skill nel repository sotto `.agents/skills/<nome>/SKILL.md`, e per l'utente sotto `$HOME/.agents/skills/<nome>/SKILL.md` (Windows tipicamente `%USERPROFILE%\.agents\skills`). Usa skills locali per le regole specifiche di LoboStudio e skill utente per regole generali tra progetti.
+Codex trova le skill di progetto in `.agents/skills/<nome>/SKILL.md` e quelle dell’utente in `$HOME/.agents/skills/<nome>/SKILL.md`. Mantieni una cartella per skill al livello che Codex si aspetta. Le copie già installate per altri agenti seguono i loro percorsi di ricerca.
 
-## Skill già incluse nel kit
+Git ignora `.agents/`, `.claude/`, `.codex/`, `.mcp.json` e `skills-lock.json`. Le skill installate, le risorse collegate e le configurazioni personali restano sul computer. Un clone usa [AGENTS.md](../AGENTS.md) e le guide del progetto anche senza le skill locali.
+
+## Skill locali di LoboStudio
 - `lobo-design-system`: guida visuale e interazioni LOBO.
 - `lobo-content-migration`: classificazione progetti e migrazione Weebly.
 - `lobo-git-delivery`: branch, commit e PR.
@@ -19,13 +21,9 @@ Codex cerca skill nel repository sotto `.agents/skills/<nome>/SKILL.md`, e per l
 ```powershell
 Get-ChildItem -Path .\.agents\skills -Directory -ErrorAction SilentlyContinue
 Get-ChildItem -Path "$HOME\.agents\skills" -Directory -ErrorAction SilentlyContinue
-# Mostra opzioni CLI e conferma dove installerà (progetto vs globale)
-npx skills --help
-# Esempi dalla repo del publisher
-npx skills add vercel-labs/agent-skills --skill vercel-react-best-practices
-npx skills add vercel-labs/agent-skills --skill web-design-guidelines
+git check-ignore -- .agents/skills .claude .codex .mcp.json skills-lock.json
 ```
-Se la CLI domanda l'agente, seleziona **Codex** e installazione **Project** se desideri versionarle nella repo; se già installate user-level non serve duplicarle. Controlla versioni e contenuti prima di installare skill di terzi.
+Usa l’installazione locale al progetto per le skill specifiche di LoboStudio. Usa il livello utente per le skill generali che vuoi condividere tra progetti. Controlla versione e contenuto prima di installare una skill esterna.
 
 ## Documentazione verificabile
 - OpenAI Codex: https://learn.chatgpt.com/docs/build-skills
